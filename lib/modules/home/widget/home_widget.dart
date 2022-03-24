@@ -1,17 +1,26 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: use_key_in_widget_constructors
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:stockcry/modules/history/history_module.dart';
+import 'package:stockcry/modules/history/history_route.dart';
+import 'package:stockcry/utils/route_utils.dart';
+
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeWidget> createState() => _HomeWidgetState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeWidgetState extends State<HomeWidget> {
   List<int> testList = [1, 2, 3, 4, 5, 6];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color.fromRGBO(246, 191, 135, 1),
+      ),
       body: SafeArea(
           child: Stack(
         children: [
@@ -78,7 +87,7 @@ class _HomePageState extends State<HomePage> {
 class RecordInfoView extends StatelessWidget {
   final Decoration outerDecoration;
   final Decoration innerDecoration;
-  RecordInfoView(
+  const RecordInfoView(
       {required this.outerDecoration, required this.innerDecoration});
 
   @override
@@ -91,21 +100,26 @@ class RecordInfoView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextWidget(text: "မှတ်တမ်း"),
+          const TextWidget(text: "မှတ်တမ်း"),
           const SizedBox(
             height: 10.0,
           ),
           ListTileView(
             text: "၅ရက်စာ မှတ်တမ်း",
             decoration: innerDecoration,
+            onTap: () {
+                RouteUtils.changeRoute<HistoryModule>(HistoryRoute.root);
+            },
           ),
           const SizedBox(
             height: 5.0,
           ),
           ListTileView(
-            text: "3D ပေါက်စဥ်",
-            decoration: innerDecoration,
-          ),
+              text: "3D ပေါက်စဥ်",
+              decoration: innerDecoration,
+              onTap: () {
+                RouteUtils.changeRoute<HistoryModule>(HistoryRoute.root);
+              }),
         ],
       ),
     );
@@ -115,22 +129,27 @@ class RecordInfoView extends StatelessWidget {
 class ListTileView extends StatelessWidget {
   final Decoration decoration;
   final String text;
-  ListTileView({required this.decoration, required this.text});
+  final Function() onTap;
+  const ListTileView(
+      {required this.decoration, required this.text, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: decoration,
-      child: ListTile(
-        minLeadingWidth: 0.0,
-        leading: const Icon(Icons.info),
-        title: TextWidget(text: text),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 15.0,
-          color: Colors.black,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 50,
+        width: double.infinity,
+        decoration: decoration,
+        child: ListTile(
+          minLeadingWidth: 0.0,
+          leading: const Icon(Icons.info),
+          title: TextWidget(text: text),
+          trailing: const Icon(
+            Icons.arrow_forward_ios,
+            size: 15.0,
+            color: Colors.black,
+          ),
         ),
       ),
     );
@@ -139,7 +158,7 @@ class ListTileView extends StatelessWidget {
 
 class StockInfoView extends StatelessWidget {
   final Decoration decoration;
-  StockInfoView({required this.decoration});
+  const StockInfoView({required this.decoration});
 
   @override
   Widget build(BuildContext context) {
@@ -152,28 +171,28 @@ class StockInfoView extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               TextWidget(text: "30/10/2021"),
               TextWidget(text: "08:11:35 PM"),
             ],
           ),
           const Spacer(),
-          TextWidget(
+          const TextWidget(
             text: "37",
             size: 56,
-            color: const Color.fromRGBO(74, 135, 135, 1),
+            color: Color.fromRGBO(74, 135, 135, 1),
             isBold: true,
           ),
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               ColumnWidget(
-                startText: "SET",
+                startText: "BUY",
                 endText: "1,623.23",
               ),
               ColumnWidget(
-                startText: "VALUE",
+                startText: "SELL",
                 endText: "66,749.23",
               )
             ],
@@ -186,7 +205,7 @@ class StockInfoView extends StatelessWidget {
 
 class NumberBoxView extends StatelessWidget {
   final Decoration decoration;
-  NumberBoxView({required this.decoration});
+  const NumberBoxView({required this.decoration});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -195,7 +214,7 @@ class NumberBoxView extends StatelessWidget {
       width: 170,
       decoration: decoration,
       child: Column(
-        children: [
+        children: const [
           TextWidget(
             text: "12.1 PM",
             size: 18,
@@ -204,7 +223,7 @@ class NumberBoxView extends StatelessWidget {
             text: "50",
             isBold: true,
             size: 32,
-            color: const Color.fromRGBO(74, 135, 135, 1),
+            color: Color.fromRGBO(74, 135, 135, 1),
           )
         ],
       ),
@@ -215,7 +234,7 @@ class NumberBoxView extends StatelessWidget {
 class ColumnWidget extends StatelessWidget {
   final String startText;
   final String endText;
-  ColumnWidget({required this.startText, required this.endText});
+  const ColumnWidget({required this.startText, required this.endText});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -237,7 +256,7 @@ class TextWidget extends StatelessWidget {
   final double size;
   final Color color;
   final bool isBold;
-  TextWidget(
+  const TextWidget(
       {required this.text,
       this.size = 15,
       this.color = Colors.black,

@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:stockcry/app_module.dart';
+import 'package:stockcry/app_widget.dart';
 
-import 'home_page.dart';
-
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+ 
+  // await Firebase.initializeApp();
+  runApp(
+    ModularApp(
+      module: AppModule(),
+      child: const AppWidget(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
+// fvm flutter run | grep -v "Error retrieving thread information"
+// Fvm build runner gen
+// flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
+// fvm flutter pub get && fvm flutter pub run build_runner build --delete-conflicting-outputs
+// fvm flutter pub run flutter_launcher_icons:main
+// pod deintegrate --verbose
+// arch -x86_64 pod install
+// pod install --verbose
+// 09791321680
+// sudo arch -x86_64 gem install ffi
