@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>983290904429-9l93hidt8b2qvuuv6vqts2jjhoe7b7b8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.983290904429-9l93hidt8b2qvuuv6vqts2jjhoe7b7b8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCarTdYgdJZmGgDiyp_afk8xcI-f0KSAy4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>983290904429</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ovo.buysell.stockcry</string>
+	<key>PROJECT_ID</key>
+	<string>luckymmstock</string>
+	<key>STORAGE_BUCKET</key>
+	<string>luckymmstock.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:983290904429:ios:a50aadd5a5c7848a78e464</string>
+</dict>
+</plist>

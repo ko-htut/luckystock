@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "983290904429",
+    "project_id": "luckymmstock",
+    "storage_bucket": "luckymmstock.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983290904429:android:78b5458f8235100378e464",
+        "android_client_info": {
+          "package_name": "ovo.buysell.stockcry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983290904429-2gl4qhu7eeobjrhrcgumfelo9qi8oqv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtUsbJIC9dMz0s1LuIC41lxnQEmH3-lKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983290904429-2gl4qhu7eeobjrhrcgumfelo9qi8oqv7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "983290904429-9l93hidt8b2qvuuv6vqts2jjhoe7b7b8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ovo.buysell.stockcry"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
