@@ -13,7 +13,14 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  List<int> testList = [1, 2, 3, 4, 5, 6];
+  List<String> testList = [
+    "9:00 AM",
+    "12:00 AM",
+    "2:00 PM",
+    "4:00 PM",
+    "6:00 PM",
+    "9:00 PM"
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +45,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                 children: testList.map((item) {
                   return NumberBoxView(
                     decoration: roundedDecoration(),
+                    number: "??",
+                    time: item,
                   );
                 }).toList(),
               ),
@@ -108,14 +117,14 @@ class RecordInfoView extends StatelessWidget {
             text: "၅ရက်စာ မှတ်တမ်း",
             decoration: innerDecoration,
             onTap: () {
-                RouteUtils.changeRoute<HistoryModule>(HistoryRoute.root);
+              RouteUtils.changeRoute<HistoryModule>(HistoryRoute.root);
             },
           ),
           const SizedBox(
             height: 5.0,
           ),
           ListTileView(
-              text: "3D ပေါက်စဥ်",
+              text: "2D ပေါက်စဥ်",
               decoration: innerDecoration,
               onTap: () {
                 RouteUtils.changeRoute<HistoryModule>(HistoryRoute.root);
@@ -204,8 +213,11 @@ class StockInfoView extends StatelessWidget {
 }
 
 class NumberBoxView extends StatelessWidget {
+  final String time;
+  final String number;
   final Decoration decoration;
-  const NumberBoxView({required this.decoration});
+  const NumberBoxView(
+      {required this.time, required this.number, required this.decoration});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -214,16 +226,16 @@ class NumberBoxView extends StatelessWidget {
       width: 170,
       decoration: decoration,
       child: Column(
-        children: const [
+        children: [
           TextWidget(
-            text: "12.1 PM",
+            text: time,
             size: 18,
           ),
           TextWidget(
-            text: "50",
+            text: number,
             isBold: true,
             size: 32,
-            color: Color.fromRGBO(74, 135, 135, 1),
+            color: const Color.fromRGBO(74, 135, 135, 1),
           )
         ],
       ),

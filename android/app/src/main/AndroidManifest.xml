@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     
    <application
-        android:label="stockcry"
+        android:label="Lucky Daliy 2D"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
