@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stockcry/modules/history/history_module.dart';
@@ -20,6 +21,7 @@ class HomeWidget extends StatefulWidget {
 DocumentSnapshot? snapshot;
 
 class _HomeWidgetState extends State<HomeWidget> {
+
   List<String> timeList = [
     "9:00AM",
     "12:00PM",
@@ -47,7 +49,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.3,
-        title: const Text("Lucky Myanmar 2D"),
+        title: const Text("Lucky Daliy 2D"),
         backgroundColor: const Color.fromARGB(255, 144, 245, 148),
       ),
       body: SafeArea(
@@ -260,15 +262,27 @@ class StockInfoView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextWidget(text: date),
-              const TextWidget(text: "12:PM"),
+              // const TextWidget(text: "12:00PM"),
             ],
           ),
           const Spacer(),
-          TextWidget(
-            text: "${data?.get("number")}",
-            size: 56,
-            color: Color.fromARGB(255, 1, 39, 255),
-            isBold: true,
+          // TextWidget(
+          //   text: "${data?.get("number")}",
+          //   size: 56,
+          //   color: Color.fromARGB(255, 1, 39, 255),
+          //   isBold: true,
+          // ),
+         AnimatedTextKit(
+            repeatForever: true,
+            animatedTexts: [
+              ScaleAnimatedText(
+                "${data?.get("number")}",
+                textStyle: const TextStyle(
+                    color:  Color.fromARGB(255, 1, 39, 255),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 56),
+              ),
+            ],
           ),
           const Spacer(),
           Row(

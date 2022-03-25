@@ -48,6 +48,7 @@ dependencies:
   shared_preferences: ^2.0.13
   firebase_core: ^1.13.1
   intl:
+  animated_text_kit: ^4.2.1
 
 
 dev_dependencies:
