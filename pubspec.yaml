@@ -47,6 +47,7 @@ dependencies:
   line_icons: ^2.0.1
   shared_preferences: ^2.0.13
   firebase_core: ^1.13.1
+  intl:
 
 
 dev_dependencies:

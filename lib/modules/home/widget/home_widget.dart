@@ -1,9 +1,11 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:stockcry/modules/history/history_module.dart';
 import 'package:stockcry/modules/history/history_route.dart';
 import 'package:stockcry/utils/route_utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
@@ -12,15 +14,28 @@ class HomeWidget extends StatefulWidget {
   State<HomeWidget> createState() => _HomeWidgetState();
 }
 
+DocumentSnapshot? snapshot;
+
 class _HomeWidgetState extends State<HomeWidget> {
-  List<String> testList = [
-    "9:00 AM",
-    "12:00 AM",
-    "2:00 PM",
-    "4:00 PM",
-    "6:00 PM",
-    "9:00 PM"
+  List<String> timeList = [
+    "9:00AM",
+    "12:00PM",
+    "2:00PM",
+    "4:00PM",
+    "6:00PM",
+    "9:00PM"
   ];
+
+  String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  final Stream<QuerySnapshot> daily =
+      FirebaseFirestore.instance.collection("daily").snapshots();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +54,51 @@ class _HomeWidgetState extends State<HomeWidget> {
               const SizedBox(
                 height: 10.0,
               ),
-              Wrap(
-                spacing: 7.0,
-                runSpacing: 7.0,
-                children: testList.map((item) {
-                  return NumberBoxView(
-                    decoration: roundedDecoration(),
-                    number: "??",
-                    time: item,
+              StreamBuilder<QuerySnapshot>(
+                stream: daily,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> shapShot) {
+                  if (shapShot.hasError) {
+                    return const Text("something went wrong");
+                  }
+                  if (shapShot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
+                  final data = shapShot.data!;
+                  final allData = data.docs.map((doc) => doc).toList();
+
+                  return Wrap(
+                    spacing: 7.0,
+                    runSpacing: 7.0,
+                    children: timeList
+                        .asMap()
+                        .map((i, item) {
+                          String temp = "$currentDate ($item)";
+                          var raw;
+                          String number = "??";
+                          allData.forEach((element) {
+                            if (element.id == temp) {
+                              raw = element.data();
+                              number = raw["number"];
+                              if (number == "" || number.isEmpty) {
+                                number = "??";
+                              }
+                            }
+                          });
+
+                          return MapEntry(
+                              i,
+                              NumberBoxView(
+                                decoration: roundedDecoration(),
+                                number: number.toString(),
+                                time: item,
+                              ));
+                        })
+                        .values
+                        .toList(),
                   );
-                }).toList(),
-              ),
+                },
+              )
             ],
           ),
           Align(
