@@ -18,6 +18,6 @@ const PRIMARY_COLOR = Color.fromARGB(255, 32, 52, 77);
 const SECONDARY_COLOR = Color.fromARGB(255, 28, 70, 122);
 const ITEM_BACKGROUND_COLOR = Color.fromARGB(255, 21, 94, 182);
 const HOME_TEXT_COLOR = Color.fromARGB(255, 216, 203, 25);
-const HOME_SUB_TEXT_COLOR = Color.fromRGBO(23, 31, 41, 1);
+const HOME_SUB_TEXT_COLOR = Color.fromARGB(255, 30, 115, 218);
 const HISTORY_TEXT_COLOR = Color.fromRGBO(23, 31, 41, 1);
 const HISTORY_SUB_TEXT_COLOR = Color.fromRGBO(23, 31, 41, 1);

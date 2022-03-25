@@ -189,7 +189,10 @@ class RecordInfoView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TextWidget(text: "မှတ်တမ်း"),
+          const TextWidget(
+            text: "မှတ်တမ်း",
+            color: Colors.white,
+          ),
           const SizedBox(
             height: 10.0,
           ),
@@ -232,8 +235,14 @@ class ListTileView extends StatelessWidget {
         decoration: decoration,
         child: ListTile(
           minLeadingWidth: 0.0,
-          leading: const Icon(Icons.info),
-          title: TextWidget(text: text),
+          leading: const Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          title: TextWidget(
+            text: text,
+            color: Colors.white,
+          ),
           trailing: const Icon(
             Icons.arrow_forward_ios,
             size: 15.0,
@@ -249,11 +258,13 @@ class StockInfoView extends StatelessWidget {
   final Decoration decoration;
   final String date;
   final DocumentSnapshot? data;
-  const StockInfoView({
+   StockInfoView({
     required this.decoration,
     required this.date,
     required this.data,
   });
+
+  TimeOfDay initialTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -267,10 +278,16 @@ class StockInfoView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextWidget(text: date),
               TextWidget(
-                  text: DateFormat.jm()
-                      .format(DateTime.parse(data!.get("date_time")))),
+                text: date,
+                color: Colors.white,
+              ),
+              TextWidget(
+                text: initialTime.format(context),
+                // text: DateFormat.jm()
+                //     .format(DateTime.parse(data!.get("date_time"))),
+                color: Colors.white,
+              ),
 
               // const TextWidget(text: "12:00PM"),
             ],
@@ -324,7 +341,7 @@ class NumberBoxView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12.0),
-      height: 85,
+      height: 100,
       width: 170,
       decoration: decoration,
       child: Column(
@@ -332,6 +349,10 @@ class NumberBoxView extends StatelessWidget {
           TextWidget(
             text: time,
             size: 18,
+            color: Colors.white,
+          ),
+          const SizedBox(
+            height: 5,
           ),
           TextWidget(
             text: number,

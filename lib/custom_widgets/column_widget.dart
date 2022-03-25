@@ -12,7 +12,11 @@ class ColumnWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextWidget(text: startText),
+        TextWidget(
+          text: startText,
+          color: Color.fromARGB(255, 21, 179, 55),
+          isBold: true,
+        ),
         const SizedBox(
           height: 5.0,
         ),
