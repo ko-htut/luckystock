@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stockcry/custom_widgets/text_widget.dart';
@@ -16,7 +18,7 @@ class _HistoryWidgetState extends State<HistoryWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        elevation: 0.3,
         backgroundColor: const Color.fromARGB(255, 110, 194, 113),
       ),
       body: StreamBuilder(
@@ -49,54 +51,62 @@ class _HistoryWidgetState extends State<HistoryWidget> {
 class HistoryInfoView extends StatelessWidget {
   String date;
   DocumentSnapshot? data;
-  HistoryInfoView({required this.date, required this.data});
+  HistoryInfoView({Key? key, required this.date, required this.data})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-      ),
-      height: 80.0,
-      width: double.infinity,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextWidget(
-            text: "Num : ${data!.get("number")}",
-            color: const Color.fromRGBO(68, 148, 93, 1),
-            isBold: true,
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Card(
+      elevation: 0.3,
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextWidget(
-                text: "Buy : ${data!.get("buy")}",
-                color: const Color.fromRGBO(50, 100, 137, 1),
-                isBold: true,
+              const SizedBox(
+                height: 3.0,
               ),
               TextWidget(
-                text: "Sell : ${data!.get("sell")}",
-                color: const Color.fromRGBO(50, 100, 137, 1),
+                text: "Number : ${data!.get("number")}",
+                color: const Color.fromRGBO(68, 148, 93, 1),
                 isBold: true,
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextWidget(
+                    text: "Buy : ${data!.get("buy")}",
+                    color: const Color.fromRGBO(50, 100, 137, 1),
+                    isBold: true,
+                    size: 14,
+                  ),
+                  TextWidget(
+                    text: "Sell : ${data!.get("sell")}",
+                    color: const Color.fromRGBO(50, 100, 137, 1),
+                    isBold: true,
+                    size: 14,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              TextWidget(
+                text: date,
+                size: 14,
+              ),
+              const SizedBox(
+                height: 3.0,
               ),
             ],
           ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          TextWidget(text: date),
-          const SizedBox(
-            height: 8.0,
-          ),
-          const Divider(
-            height: 1,
-          ),
-        ],
+        ),
       ),
     );
   }

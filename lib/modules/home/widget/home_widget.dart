@@ -46,15 +46,16 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color.fromARGB(255, 110, 194, 113),
+        elevation: 0.3,
+        title: const Text("Lucky Myanmar 2D"),
+        backgroundColor: const Color.fromARGB(255, 144, 245, 148),
       ),
       body: SafeArea(
           child: Stack(
         children: [
           Column(
             children: [
-              StreamBuilder<QuerySnapshot>(
+              StreamBuilder(
                   stream: current,
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> shapShot) {
@@ -74,7 +75,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               const SizedBox(
                 height: 10.0,
               ),
-              StreamBuilder<QuerySnapshot>(
+              StreamBuilder(
                 stream: daily,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> shapShot) {
@@ -128,10 +129,10 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   BoxDecoration bottomRoundedDecoration() {
     return const BoxDecoration(
-      color: Color.fromARGB(255, 110, 194, 113),
+      color: Color.fromARGB(255, 144, 245, 148),
       borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(20.0),
-        bottomRight: Radius.circular(20.0),
+        bottomLeft: Radius.circular(18.0),
+        bottomRight: Radius.circular(18.0),
       ),
     );
   }
@@ -255,7 +256,7 @@ class StockInfoView extends StatelessWidget {
           TextWidget(
             text: "${data?.get("number")}",
             size: 56,
-            color: const Color.fromRGBO(50, 100, 137, 1),
+            color: Color.fromARGB(255, 1, 39, 255),
             isBold: true,
           ),
           const Spacer(),
@@ -301,7 +302,7 @@ class NumberBoxView extends StatelessWidget {
             text: number,
             isBold: true,
             size: 32,
-            color: const Color.fromRGBO(50, 100, 137, 1),
+            color: const Color.fromARGB(255, 1, 39, 255),
           )
         ],
       ),
