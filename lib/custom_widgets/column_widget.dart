@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stockcry/constant/colors.dart';
 
 import 'text_widget.dart';
 
@@ -17,7 +18,7 @@ class ColumnWidget extends StatelessWidget {
         ),
         TextWidget(
           text: endText,
-          color: const Color.fromRGBO(50, 100, 137, 1),
+          color: HOME_SUB_TEXT_COLOR,
           isBold: true,
         ),
       ],

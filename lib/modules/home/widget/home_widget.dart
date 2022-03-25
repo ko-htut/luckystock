@@ -8,6 +8,7 @@ import 'package:stockcry/modules/history/history_route.dart';
 import 'package:stockcry/utils/route_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../constant/colors.dart';
 import '../../../custom_widgets/column_widget.dart';
 import '../../../custom_widgets/text_widget.dart';
 
@@ -21,7 +22,6 @@ class HomeWidget extends StatefulWidget {
 DocumentSnapshot? snapshot;
 
 class _HomeWidgetState extends State<HomeWidget> {
-
   List<String> timeList = [
     "9:00AM",
     "12:00PM",
@@ -50,7 +50,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       appBar: AppBar(
         elevation: 0.3,
         title: const Text("Lucky Daliy 2D"),
-        backgroundColor: const Color.fromARGB(255, 144, 245, 148),
+        backgroundColor: PRIMARY_COLOR,
       ),
       body: SafeArea(
           child: Stack(
@@ -70,9 +70,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                       );
                     }
                     final DocumentSnapshot currentDoc = shapShot.data!.docs[0];
+                    String dateTime = currentDoc.get("date_time");
+                    var rawDT = dateTime.split(" ");
+                    String date = rawDT[0];
                     if (shapShot.hasData) {
                       return StockInfoView(
-                        date: currentDate,
+                        date: date,
                         data: currentDoc,
                         decoration: bottomRoundedDecoration(),
                       );
@@ -142,7 +145,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   BoxDecoration bottomRoundedDecoration() {
     return const BoxDecoration(
-      color: Color.fromARGB(255, 144, 245, 148),
+      color: PRIMARY_COLOR,
       borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(18.0),
         bottomRight: Radius.circular(18.0),
@@ -152,7 +155,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   BoxDecoration roundedDecoration() {
     return const BoxDecoration(
-      color: Color.fromARGB(255, 173, 236, 165),
+      color: ITEM_BACKGROUND_COLOR,
       borderRadius: BorderRadius.all(
         Radius.circular(10.0),
       ),
@@ -161,7 +164,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   BoxDecoration topRoundedDecoration() {
     return const BoxDecoration(
-      color: Color.fromARGB(255, 129, 206, 119),
+      color: SECONDARY_COLOR,
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20.0),
         topRight: Radius.circular(20.0),
@@ -246,8 +249,11 @@ class StockInfoView extends StatelessWidget {
   final Decoration decoration;
   final String date;
   final DocumentSnapshot? data;
-  const StockInfoView(
-      {required this.decoration, required this.date, required this.data});
+  const StockInfoView({
+    required this.decoration,
+    required this.date,
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -262,6 +268,10 @@ class StockInfoView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextWidget(text: date),
+              TextWidget(
+                  text: DateFormat.jm()
+                      .format(DateTime.parse(data!.get("date_time")))),
+
               // const TextWidget(text: "12:00PM"),
             ],
           ),
@@ -272,13 +282,13 @@ class StockInfoView extends StatelessWidget {
           //   color: Color.fromARGB(255, 1, 39, 255),
           //   isBold: true,
           // ),
-         AnimatedTextKit(
+          AnimatedTextKit(
             repeatForever: true,
             animatedTexts: [
               ScaleAnimatedText(
                 "${data?.get("number")}",
                 textStyle: const TextStyle(
-                    color:  Color.fromARGB(255, 1, 39, 255),
+                    color: HOME_TEXT_COLOR,
                     fontWeight: FontWeight.bold,
                     fontSize: 56),
               ),
@@ -327,7 +337,7 @@ class NumberBoxView extends StatelessWidget {
             text: number,
             isBold: true,
             size: 32,
-            color: const Color.fromARGB(255, 1, 39, 255),
+            color: HOME_TEXT_COLOR,
           )
         ],
       ),

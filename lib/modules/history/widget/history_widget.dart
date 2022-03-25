@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:stockcry/constant/colors.dart';
 import 'package:stockcry/custom_widgets/text_widget.dart';
 
 class HistoryWidget extends StatefulWidget {
@@ -19,7 +20,7 @@ class _HistoryWidgetState extends State<HistoryWidget> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.3,
-        backgroundColor: const Color.fromARGB(255, 110, 194, 113),
+        backgroundColor: PRIMARY_COLOR,
       ),
       body: StreamBuilder(
         stream: history,
@@ -76,7 +77,7 @@ class HistoryInfoView extends StatelessWidget {
               ),
               TextWidget(
                 text: "Number : ${data!.get("number")}",
-                color: const Color.fromRGBO(68, 148, 93, 1),
+                color: HISTORY_TEXT_COLOR,
                 isBold: true,
               ),
               const SizedBox(
@@ -87,13 +88,13 @@ class HistoryInfoView extends StatelessWidget {
                 children: [
                   TextWidget(
                     text: "Buy : ${data!.get("buy")}",
-                    color: const Color.fromRGBO(50, 100, 137, 1),
+                    color: HISTORY_SUB_TEXT_COLOR,
                     isBold: true,
                     size: 14,
                   ),
                   TextWidget(
                     text: "Sell : ${data!.get("sell")}",
-                    color: const Color.fromRGBO(50, 100, 137, 1),
+                    color: HISTORY_SUB_TEXT_COLOR,
                     isBold: true,
                     size: 14,
                   ),
