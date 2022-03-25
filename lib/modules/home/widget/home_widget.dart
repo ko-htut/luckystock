@@ -7,6 +7,9 @@ import 'package:stockcry/modules/history/history_route.dart';
 import 'package:stockcry/utils/route_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../custom_widgets/column_widget.dart';
+import '../../../custom_widgets/text_widget.dart';
+
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
 
@@ -31,6 +34,9 @@ class _HomeWidgetState extends State<HomeWidget> {
   final Stream<QuerySnapshot> daily =
       FirebaseFirestore.instance.collection("daily").snapshots();
 
+  final Stream<QuerySnapshot> current =
+      FirebaseFirestore.instance.collection("lucky2d").snapshots();
+
   @override
   void initState() {
     super.initState();
@@ -41,16 +47,30 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color.fromRGBO(246, 191, 135, 1),
+        backgroundColor: const Color.fromARGB(255, 110, 194, 113),
       ),
       body: SafeArea(
           child: Stack(
         children: [
           Column(
             children: [
-              StockInfoView(
-                decoration: bottomRoundedDecoration(),
-              ),
+              StreamBuilder<QuerySnapshot>(
+                  stream: current,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> shapShot) {
+                    if (shapShot.hasError) {
+                      return const Text("Something went wrong");
+                    }
+                    if (shapShot.connectionState == ConnectionState.waiting) {
+                      return const Text("Loading");
+                    }
+                    final DocumentSnapshot currentDoc = shapShot.data!.docs[0];
+                    return StockInfoView(
+                      date: currentDate,
+                      data: currentDoc,
+                      decoration: bottomRoundedDecoration(),
+                    );
+                  }),
               const SizedBox(
                 height: 10.0,
               ),
@@ -70,32 +90,26 @@ class _HomeWidgetState extends State<HomeWidget> {
                   return Wrap(
                     spacing: 7.0,
                     runSpacing: 7.0,
-                    children: timeList
-                        .asMap()
-                        .map((i, item) {
-                          String temp = "$currentDate ($item)";
-                          var raw;
-                          String number = "??";
-                          allData.forEach((element) {
-                            if (element.id == temp) {
-                              raw = element.data();
-                              number = raw["number"];
-                              if (number == "" || number.isEmpty) {
-                                number = "??";
-                              }
-                            }
-                          });
+                    children: timeList.map((item) {
+                      String temp = "$currentDate ($item)";
+                      var raw;
+                      String number = "??";
+                      allData.forEach((element) {
+                        if (element.id == temp) {
+                          raw = element.data();
+                          number = raw["number"];
+                          if (number == "" || number.isEmpty) {
+                            number = "??";
+                          }
+                        }
+                      });
 
-                          return MapEntry(
-                              i,
-                              NumberBoxView(
-                                decoration: roundedDecoration(),
-                                number: number.toString(),
-                                time: item,
-                              ));
-                        })
-                        .values
-                        .toList(),
+                      return NumberBoxView(
+                        decoration: roundedDecoration(),
+                        number: number.toString(),
+                        time: item,
+                      );
+                    }).toList(),
                   );
                 },
               )
@@ -114,7 +128,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   BoxDecoration bottomRoundedDecoration() {
     return const BoxDecoration(
-      color: Color.fromRGBO(246, 191, 135, 1),
+      color: Color.fromARGB(255, 110, 194, 113),
       borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(20.0),
         bottomRight: Radius.circular(20.0),
@@ -124,7 +138,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   BoxDecoration roundedDecoration() {
     return const BoxDecoration(
-      color: Color.fromRGBO(246, 216, 187, 1),
+      color: Color.fromARGB(255, 173, 236, 165),
       borderRadius: BorderRadius.all(
         Radius.circular(10.0),
       ),
@@ -133,7 +147,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   BoxDecoration topRoundedDecoration() {
     return const BoxDecoration(
-      color: Color.fromRGBO(236, 208, 177, 1),
+      color: Color.fromARGB(255, 129, 206, 119),
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20.0),
         topRight: Radius.circular(20.0),
@@ -216,7 +230,10 @@ class ListTileView extends StatelessWidget {
 
 class StockInfoView extends StatelessWidget {
   final Decoration decoration;
-  const StockInfoView({required this.decoration});
+  final String date;
+  final DocumentSnapshot? data;
+  const StockInfoView(
+      {required this.decoration, required this.date, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -229,29 +246,29 @@ class StockInfoView extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              TextWidget(text: "30/10/2021"),
-              TextWidget(text: "08:11:35 PM"),
+            children: [
+              TextWidget(text: date),
+              const TextWidget(text: "12:PM"),
             ],
           ),
           const Spacer(),
-          const TextWidget(
-            text: "37",
+          TextWidget(
+            text: "${data?.get("number")}",
             size: 56,
-            color: Color.fromRGBO(74, 135, 135, 1),
+            color: const Color.fromRGBO(50, 100, 137, 1),
             isBold: true,
           ),
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               ColumnWidget(
                 startText: "BUY",
-                endText: "1,623.23",
+                endText: "${data?.get("buy")}",
               ),
               ColumnWidget(
                 startText: "SELL",
-                endText: "66,749.23",
+                endText: "${data?.get("sell")}",
               )
             ],
           )
@@ -284,53 +301,9 @@ class NumberBoxView extends StatelessWidget {
             text: number,
             isBold: true,
             size: 32,
-            color: const Color.fromRGBO(74, 135, 135, 1),
+            color: const Color.fromRGBO(50, 100, 137, 1),
           )
         ],
-      ),
-    );
-  }
-}
-
-class ColumnWidget extends StatelessWidget {
-  final String startText;
-  final String endText;
-  const ColumnWidget({required this.startText, required this.endText});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextWidget(text: startText),
-        TextWidget(
-          text: endText,
-          color: const Color.fromRGBO(74, 135, 135, 1),
-          isBold: true,
-        ),
-      ],
-    );
-  }
-}
-
-class TextWidget extends StatelessWidget {
-  final String text;
-  final double size;
-  final Color color;
-  final bool isBold;
-  const TextWidget(
-      {required this.text,
-      this.size = 15,
-      this.color = Colors.black,
-      this.isBold = false});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(
-        color: color,
-        fontSize: size,
-        fontWeight: isBold ? FontWeight.bold : null,
       ),
     );
   }
