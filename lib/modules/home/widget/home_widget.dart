@@ -35,7 +35,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       FirebaseFirestore.instance.collection("daily").snapshots();
 
   final Stream<QuerySnapshot> current =
-      FirebaseFirestore.instance.collection("lucky2d").snapshots();
+      FirebaseFirestore.instance.collection("currency").snapshots();
 
   @override
   void initState() {
@@ -63,13 +63,20 @@ class _HomeWidgetState extends State<HomeWidget> {
                       return const Text("Something went wrong");
                     }
                     if (shapShot.connectionState == ConnectionState.waiting) {
-                      return const Text("Loading");
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
                     final DocumentSnapshot currentDoc = shapShot.data!.docs[0];
-                    return StockInfoView(
-                      date: currentDate,
-                      data: currentDoc,
-                      decoration: bottomRoundedDecoration(),
+                    if (shapShot.hasData) {
+                      return StockInfoView(
+                        date: currentDate,
+                        data: currentDoc,
+                        decoration: bottomRoundedDecoration(),
+                      );
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
                   }),
               const SizedBox(
@@ -83,34 +90,38 @@ class _HomeWidgetState extends State<HomeWidget> {
                     return const Text("something went wrong");
                   }
                   if (shapShot.connectionState == ConnectionState.waiting) {
-                    return const Text("Loading");
+                    return const CircularProgressIndicator();
                   }
                   final data = shapShot.data!;
                   final allData = data.docs.map((doc) => doc).toList();
-
-                  return Wrap(
-                    spacing: 7.0,
-                    runSpacing: 7.0,
-                    children: timeList.map((item) {
-                      String temp = "$currentDate ($item)";
-                      var raw;
-                      String number = "??";
-                      allData.forEach((element) {
-                        if (element.id == temp) {
-                          raw = element.data();
-                          number = raw["number"];
-                          if (number == "" || number.isEmpty) {
-                            number = "??";
+                  if (shapShot.hasData) {
+                    return Wrap(
+                      spacing: 7.0,
+                      runSpacing: 7.0,
+                      children: timeList.map((item) {
+                        String temp = "$currentDate ($item)";
+                        var raw;
+                        String number = "??";
+                        allData.forEach((element) {
+                          if (element.id == temp) {
+                            raw = element.data();
+                            number = raw["number"];
+                            if (number == "" || number.isEmpty) {
+                              number = "??";
+                            }
                           }
-                        }
-                      });
+                        });
 
-                      return NumberBoxView(
-                        decoration: roundedDecoration(),
-                        number: number.toString(),
-                        time: item,
-                      );
-                    }).toList(),
+                        return NumberBoxView(
+                          decoration: roundedDecoration(),
+                          number: number.toString(),
+                          time: item,
+                        );
+                      }).toList(),
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 },
               )

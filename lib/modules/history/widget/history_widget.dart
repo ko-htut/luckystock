@@ -28,19 +28,24 @@ class _HistoryWidgetState extends State<HistoryWidget> {
             return const Text("something went wrong");
           }
           if (shapShot.connectionState == ConnectionState.waiting) {
-            return const Text("Loading");
+            return const CircularProgressIndicator();
           }
           final allData = shapShot.data!.docs.map((doc) => doc).toList();
+          if (shapShot.hasData) {
+            return SingleChildScrollView(
+              child: Column(
+                children: allData.map((doc) {
+                  return HistoryInfoView(
+                    date: doc.id,
+                    data: doc,
+                  );
+                }).toList(),
+              ),
+            );
+          }
 
-          return SingleChildScrollView(
-            child: Column(
-              children: allData.map((doc) {
-                return HistoryInfoView(
-                  date: doc.id,
-                  data: doc,
-                );
-              }).toList(),
-            ),
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         },
       ),
