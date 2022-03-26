@@ -5,11 +5,14 @@ class TextWidget extends StatelessWidget {
   final double size;
   final Color color;
   final bool isBold;
-  const TextWidget(
-      {required this.text,
-      this.size = 15,
-      this.color = Colors.black,
-      this.isBold = false});
+  final bool isMyan;
+  const TextWidget({
+    required this.text,
+    this.size = 15,
+    this.color = Colors.black,
+    this.isBold = false,
+    this.isMyan = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +22,7 @@ class TextWidget extends StatelessWidget {
         color: color,
         fontSize: size,
         fontWeight: isBold ? FontWeight.bold : null,
+        fontFamily: isMyan ? 'pyidaungsu' : null,
       ),
     );
   }
