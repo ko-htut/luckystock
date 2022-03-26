@@ -90,7 +90,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
                 StreamBuilder(
                   stream: daily,
-          child: Stack(
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> shapShot) {
                     if (shapShot.hasError) {
@@ -107,12 +106,18 @@ class _HomeWidgetState extends State<HomeWidget> {
                         runSpacing: 7.0,
                         children: timeList.map((item) {
                           String temp = "$currentDate ($item)";
+                          var now = DateTime.now();
                           var raw;
                           String number = "??";
                           allData.forEach((element) {
                             if (element.id == temp) {
                               raw = element.data();
-                              number = raw["number"];
+                              var datetime = raw["time"].toDate();
+                              if (now.isAfter(datetime) == true) {
+                                number = raw["number"];
+                              } else {
+                                number = "??";
+                              }
                               if (number == "" || number.isEmpty) {
                                 number = "??";
                               }
