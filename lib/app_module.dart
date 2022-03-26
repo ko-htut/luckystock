@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:logger/logger.dart';
 import 'package:stockcry/error/error_widget.dart';
@@ -10,7 +11,7 @@ class AppModule extends Module {
   @override
   final List<Bind> binds = [
     Bind((i) => Logger(printer: PrettyPrinter(methodCount: 0))),
-    // Bind((i) => FirebaseAnalytics.instance),
+    Bind((i) => FirebaseAnalytics.instance),
     // Bind((i) => RemoteConfig.instance),
     // Bind((i) => HomeRepositoryImpl.instance),
   ];

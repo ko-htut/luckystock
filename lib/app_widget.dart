@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_unnecessary_containers, unnecessary_this
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -27,6 +28,10 @@ class _AppWidgetState extends State<AppWidget> {
       return UnexpectErrorWidget(errorDetails: errorDetails);
     };
   }
+
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
