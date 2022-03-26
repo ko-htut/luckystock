@@ -105,15 +105,22 @@ class _HomeWidgetState extends State<HomeWidget> {
                       runSpacing: 7.0,
                       children: timeList.map((item) {
                         String temp = "$currentDate ($item)";
+                        var now = DateTime.now();
                         var raw;
                         String number = "??";
+
                         allData.forEach((element) {
                           if (element.id == temp) {
                             raw = element.data();
-                            number = raw["number"];
-                            if (number == "" || number.isEmpty) {
+                            var datetime = raw["time"].toDate();
+                            if (now.isAfter(datetime) == true) {
+                              number = raw["number"];
+                            } else {
                               number = "??";
                             }
+                          }
+                          if (number == "" || number.isEmpty) {
+                            number = "??";
                           }
                         });
 
@@ -258,7 +265,7 @@ class StockInfoView extends StatelessWidget {
   final Decoration decoration;
   final String date;
   final DocumentSnapshot? data;
-   StockInfoView({
+  StockInfoView({
     required this.decoration,
     required this.date,
     required this.data,
@@ -288,17 +295,9 @@ class StockInfoView extends StatelessWidget {
                 //     .format(DateTime.parse(data!.get("date_time"))),
                 color: Colors.white,
               ),
-
-              // const TextWidget(text: "12:00PM"),
             ],
           ),
           const Spacer(),
-          // TextWidget(
-          //   text: "${data?.get("number")}",
-          //   size: 56,
-          //   color: Color.fromARGB(255, 1, 39, 255),
-          //   isBold: true,
-          // ),
           AnimatedTextKit(
             repeatForever: true,
             animatedTexts: [

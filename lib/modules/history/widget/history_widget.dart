@@ -62,6 +62,7 @@ class HistoryInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     var now = DateTime.now();
     return Card(
       elevation: 0.3,
       child: SizedBox(
@@ -77,6 +78,7 @@ class HistoryInfoView extends StatelessWidget {
               ),
               TextWidget(
                 text: "Number : ${data!.get("number")}",
+                // text: "Number : ${now.isAfter(data!.get("time").toDate())}",
                 color: HISTORY_TEXT_COLOR,
                 isBold: true,
               ),
