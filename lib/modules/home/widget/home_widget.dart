@@ -191,7 +191,7 @@ class RecordInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12.0),
-      height: 200,
+      height: 165,
       width: double.infinity,
       decoration: outerDecoration,
       child: Column(
@@ -278,56 +278,58 @@ class StockInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12.0),
-      height: 200,
-      width: double.infinity,
-      decoration: decoration,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextWidget(
-                text: date,
-                color: Colors.white,
-              ),
-              TextWidget(
-                text: initialTime.format(context),
-                // text: DateFormat.jm()
-                //     .format(DateTime.parse(data!.get("date_time"))),
-                color: Colors.white,
-              ),
-            ],
-          ),
-          const Spacer(),
-          AnimatedTextKit(
-            repeatForever: true,
-            animatedTexts: [
-              ScaleAnimatedText(
-                "${data?.get("number")}",
-                textStyle: const TextStyle(
-                    color: HOME_TEXT_COLOR,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 56),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ColumnWidget(
-                startText: "BUY",
-                endText: "${data?.get("buy")}",
-              ),
-              ColumnWidget(
-                startText: "SELL",
-                endText: "${data?.get("sell")}",
-              )
-            ],
-          )
-        ],
+    return AspectRatio(
+      aspectRatio: 16 / 8,
+      child: Container(
+        padding: const EdgeInsets.all(12.0),
+        width: double.infinity,
+        decoration: decoration,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextWidget(
+                  text: date,
+                  color: Colors.white,
+                ),
+                TextWidget(
+                  text: initialTime.format(context),
+                  // text: DateFormat.jm()
+                  //     .format(DateTime.parse(data!.get("date_time"))),
+                  color: Colors.white,
+                ),
+              ],
+            ),
+            const Spacer(),
+            AnimatedTextKit(
+              repeatForever: true,
+              animatedTexts: [
+                ScaleAnimatedText(
+                  "${data?.get("number")}",
+                  textStyle: const TextStyle(
+                      color: HOME_TEXT_COLOR,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 56),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ColumnWidget(
+                  startText: "BUY",
+                  endText: "${data?.get("buy")}",
+                ),
+                ColumnWidget(
+                  startText: "SELL",
+                  endText: "${data?.get("sell")}",
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -342,11 +344,13 @@ class NumberBoxView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12.0),
-      height: 100,
-      width: 170,
+      // padding: const EdgeInsets.all(11.0),
+      height: MediaQuery.of(context).size.width / 4,
+      width: MediaQuery.of(context).size.width / 2.5,
       decoration: decoration,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextWidget(
             text: time,
