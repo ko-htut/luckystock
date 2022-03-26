@@ -14,7 +14,7 @@ class ColumnWidget extends StatelessWidget {
       children: [
         TextWidget(
           text: startText,
-          color: Color.fromARGB(255, 21, 179, 55),
+          color: const Color.fromARGB(255, 21, 179, 55),
           isBold: true,
         ),
         const SizedBox(

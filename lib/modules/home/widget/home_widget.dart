@@ -53,100 +53,96 @@ class _HomeWidgetState extends State<HomeWidget> {
         backgroundColor: PRIMARY_COLOR,
       ),
       body: SafeArea(
-          child: Stack(
-        children: [
-          Column(
-            children: [
-              StreamBuilder(
-                  stream: current,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> shapShot) {
-                    if (shapShot.hasError) {
-                      return const Text("Something went wrong");
-                    }
-                    if (shapShot.connectionState == ConnectionState.waiting) {
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                StreamBuilder(
+                    stream: current,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> shapShot) {
+                      if (shapShot.hasError) {
+                        return const Text("Something went wrong");
+                      }
+                      if (shapShot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final DocumentSnapshot currentDoc =
+                          shapShot.data!.docs[0];
+                      String dateTime = currentDoc.get("date_time");
+                      var rawDT = dateTime.split(" ");
+                      String date = rawDT[0];
+                      if (shapShot.hasData) {
+                        return StockInfoView(
+                          date: date,
+                          data: currentDoc,
+                          decoration: bottomRoundedDecoration(),
+                        );
+                      }
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
+                    }),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                StreamBuilder(
+                  stream: daily,
+          child: Stack(
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> shapShot) {
+                    if (shapShot.hasError) {
+                      return const Text("something went wrong");
                     }
-                    final DocumentSnapshot currentDoc = shapShot.data!.docs[0];
-                    String dateTime = currentDoc.get("date_time");
-                    var rawDT = dateTime.split(" ");
-                    String date = rawDT[0];
+                    if (shapShot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    final data = shapShot.data!;
+                    final allData = data.docs.map((doc) => doc).toList();
                     if (shapShot.hasData) {
-                      return StockInfoView(
-                        date: date,
-                        data: currentDoc,
-                        decoration: bottomRoundedDecoration(),
+                      return Wrap(
+                        spacing: 7.0,
+                        runSpacing: 7.0,
+                        children: timeList.map((item) {
+                          String temp = "$currentDate ($item)";
+                          var raw;
+                          String number = "??";
+                          allData.forEach((element) {
+                            if (element.id == temp) {
+                              raw = element.data();
+                              number = raw["number"];
+                              if (number == "" || number.isEmpty) {
+                                number = "??";
+                              }
+                            }
+                          });
+
+                          return NumberBoxView(
+                            decoration: roundedDecoration(),
+                            number: number.toString(),
+                            time: item,
+                          );
+                        }).toList(),
                       );
                     }
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  }),
-              const SizedBox(
-                height: 10.0,
-              ),
-              StreamBuilder(
-                stream: daily,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> shapShot) {
-                  if (shapShot.hasError) {
-                    return const Text("something went wrong");
-                  }
-                  if (shapShot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
-                  final data = shapShot.data!;
-                  final allData = data.docs.map((doc) => doc).toList();
-                  if (shapShot.hasData) {
-                    return Wrap(
-                      spacing: 7.0,
-                      runSpacing: 7.0,
-                      children: timeList.map((item) {
-                        String temp = "$currentDate ($item)";
-                        var now = DateTime.now();
-                        var raw;
-                        String number = "??";
-
-                        allData.forEach((element) {
-                          if (element.id == temp) {
-                            raw = element.data();
-                            var datetime = raw["time"].toDate();
-                            if (now.isAfter(datetime) == true) {
-                              number = raw["number"];
-                            } else {
-                              number = "??";
-                            }
-                          }
-                          if (number == "" || number.isEmpty) {
-                            number = "??";
-                          }
-                        });
-
-                        return NumberBoxView(
-                          decoration: roundedDecoration(),
-                          number: number.toString(),
-                          time: item,
-                        );
-                      }).toList(),
-                    );
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              )
-            ],
+                  },
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+              ],
+            ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: RecordInfoView(
-                outerDecoration: topRoundedDecoration(),
-                innerDecoration: roundedDecoration()),
-          )
-        ],
-      )),
+        ),
+      ),
+      bottomNavigationBar: RecordInfoView(
+          outerDecoration: topRoundedDecoration(),
+          innerDecoration: roundedDecoration()),
     );
   }
 
@@ -199,6 +195,7 @@ class RecordInfoView extends StatelessWidget {
           const TextWidget(
             text: "မှတ်တမ်း",
             color: Colors.white,
+            isMyan: true,
           ),
           const SizedBox(
             height: 10.0,
@@ -249,6 +246,7 @@ class ListTileView extends StatelessWidget {
           title: TextWidget(
             text: text,
             color: Colors.white,
+            isMyan: true,
           ),
           trailing: const Icon(
             Icons.arrow_forward_ios,
