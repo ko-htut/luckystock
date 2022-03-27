@@ -68,8 +68,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    final DocumentSnapshot currentDoc =
-                        shapShot.data!.docs[0];
+                    final DocumentSnapshot currentDoc = shapShot.data!.docs[0];
                     String dateTime = currentDoc.get("date_time");
                     var rawDT = dateTime.split(" ");
                     String date = rawDT[0];
@@ -207,7 +206,8 @@ class RecordInfoView extends StatelessWidget {
             text: "၅ရက်စာ မှတ်တမ်း",
             decoration: innerDecoration,
             onTap: () {
-              RouteUtils.changeRoute<HistoryModule>(HistoryRoute.root);
+              RouteUtils.changeRoute<HistoryModule>(
+                  HistoryRoute.fivedayshistory);
             },
           ),
           const SizedBox(
