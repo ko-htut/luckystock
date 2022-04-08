@@ -108,7 +108,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         var now = DateTime.now();
                         var raw;
                         String number = "??";
-                        allData.forEach((element) {
+                        for (var element in allData) {
                           if (element.id == temp) {
                             raw = element.data();
                             var datetime = raw["time"].toDate();
@@ -121,7 +121,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                               number = "??";
                             }
                           }
-                        });
+                        }
 
                         return NumberBoxView(
                           decoration: roundedDecoration(),
